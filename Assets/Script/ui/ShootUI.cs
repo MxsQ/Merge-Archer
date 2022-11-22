@@ -18,7 +18,7 @@ public class ShootUI : MonoBehaviour
 
     private GameObject[] dots = new GameObject[6];
     bool inAim;
-    FlyParam flyParam;
+    AimParam flyParam;
     Vector2 touchPs = Vector2.zero;
 
     private void Start()
@@ -45,7 +45,7 @@ public class ShootUI : MonoBehaviour
         StartCoroutine("AimAnimation");
     }
 
-    private void OnTouchRealse(FlyParam _flyParam)
+    private void OnTouchRealse(AimParam _flyParam)
     {
         inAim = false;
         foreach (GameObject dot in dots)
@@ -56,7 +56,7 @@ public class ShootUI : MonoBehaviour
         StopCoroutine("AimAnimation");
     }
 
-    private void OnAim(FlyParam _flyParam)
+    private void OnAim(AimParam _flyParam)
     {
         flyParam = _flyParam;
         inAim = true;

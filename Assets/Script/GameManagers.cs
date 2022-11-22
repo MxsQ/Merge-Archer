@@ -18,9 +18,13 @@ public class GameManagers : MonoBehaviour
     [System.Serializable]
     public class GlobalConfig
     {
+        [Header("Projectile")]
         public float maxPowerDistance = 100;
         public float maxSpeed = 30;
         public float gravity = 5;
         public float aimDotShowSpanTime = .2f;
+
+        [Header("GameShow")]
+        public float forceWhenDeath = 0.5f;
     }
 }

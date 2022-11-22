@@ -8,14 +8,14 @@ public class PlayerController : MonoBehaviour
 {
     TOUCH_STATE curTouchState = TOUCH_STATE.IDLE;
 
-    public static Action<FlyParam> OnAim; // angel and power
+    public static Action<AimParam> OnAim; // angel and power
     public static Action OnStartAnim;
-    public static Action<FlyParam> OnTouchRealese;
+    public static Action<AimParam> OnTouchRealese;
 
     private Vector2 touchPs = Vector2.zero;
     private Vector2 movePs = Vector2.zero;
 
-    FlyParam flyParam = new FlyParam();
+    AimParam flyParam = new AimParam();
 
     void Update()
     {
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     //private void 
 
-    private void GetAimParam(ref FlyParam param)
+    private void GetAimParam(ref AimParam param)
     {
 
         // Get aim angel
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
         RELEASE
     }
 
-    public class FlyParam
+    public class AimParam
     {
         public float startAngle;
         public float startPowerPecent;
