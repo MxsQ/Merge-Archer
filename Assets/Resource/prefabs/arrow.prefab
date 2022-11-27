@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8704014083139162534}
   - component: {fileID: 213278622766082760}
   - component: {fileID: 3078566221967440826}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: featger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 9136420902878007180}
   - component: {fileID: 4278457488164746283}
   - component: {fileID: 8535790752738712090}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: featger (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7033936741924357450}
   - component: {fileID: 7772261810125776363}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,12 +233,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6563111801100288127}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54ce8c920c54146349b0b6fb91b1a3a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ef62444b369fff458272191d837d19f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!1 &8595710255655283777
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,7 +248,7 @@ GameObject:
   - component: {fileID: 2171513723693355608}
   - component: {fileID: 1975751622171508301}
   - component: {fileID: 7738359561654698019}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

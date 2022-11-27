@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerController;
 
-public class Projectile : MonoBehaviour
+public abstract class Projectile : MonoBehaviour
 {
     //[SerializeField] LayerMask groundMask;
     LayerMask targetMask;
     int groundMask = 1 << 9;
+    int shieldMask = 1 << 10;
 
     AimParam param;
     float shootTime;
@@ -49,6 +50,10 @@ public class Projectile : MonoBehaviour
 
         var ySpeed = param.startYspeed + detTime * (-gravity);
         var rotateAnlge = Mathf.Atan(ySpeed / param.startXspeed) / Mathf.PI * 180;
+        if (param.startXspeed < 0)
+        {
+            rotateAnlge += 180;
+        }
         transform.rotation = Quaternion.Euler(0, 0, rotateAnlge);
 
         // object positon and desV contribute the flying direction
@@ -64,23 +69,51 @@ public class Projectile : MonoBehaviour
         //Debug.DrawRay(transform.position, hitDir * 2f, Color.red);
 
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 0.25f, targetMask, QueryTriggerInteraction.Collide))
+        if (DealwithTarget() && Physics.Raycast(ray, out hit, 0.25f, targetMask, QueryTriggerInteraction.Collide))
         {
-            Debug.Log("hit");
-            flying = false;
-            transform.parent = hit.collider.gameObject.transform;
-            var hitAngle = Mathf.Atan(hitDir.y / hitDir.x) / Mathf.PI * 180;
-            ProjectileData data = new ProjectileData(hitDir, hitAngle, 1);
-            hit.collider.gameObject.GetComponent<LivingEntity>().OnHit(data);
+            Debug.Log("hit enemy");
+            ProjectileData data = PreppareHitData(hitDir);
+            LivingEntity entity = hit.collider.gameObject.GetComponent<LivingEntity>();
+            if (entity == null)
+            {
+                entity = hit.collider.gameObject.GetComponentInChildren<LivingEntity>();
+            }
+            OnCollideTarget(hit, data, entity);
             return;
         }
-        else if (Physics.Raycast(ray, out hit, 0.3f, groundMask, QueryTriggerInteraction.Collide))
+        else if (DealwithShiled() && Physics.Raycast(ray, out hit, 0.25f, shieldMask, QueryTriggerInteraction.Collide))
+        {
+            Debug.Log("hit shiled");
+            ProjectileData data = PreppareHitData(hitDir);
+            OnCollideShiled(hit, data, hit.collider.gameObject.GetComponent<Sheild>().host);
+        }
+        else if (DealwithGround() && Physics.Raycast(ray, out hit, 0.3f, groundMask, QueryTriggerInteraction.Collide))
         {
             Debug.Log("hit ground");
-            flying = false;
+            OnCollideGround(hit, PreppareHitData(hitDir));
         }
-
     }
+
+    private ProjectileData PreppareHitData(Vector3 hitDir)
+    {
+        flying = false;
+        var hitAngle = Mathf.Atan(hitDir.y / hitDir.x) / Mathf.PI * 180;
+        ProjectileData data = new ProjectileData(hitDir, hitAngle, 1);
+        return data;
+    }
+
+    protected abstract bool DealwithTarget();
+    protected abstract bool DealwithGround();
+    protected abstract bool DealwithShiled();
+
+    // only override when want to dealwith sitiation is collide to target;
+    protected virtual void OnCollideTarget(RaycastHit hit, ProjectileData projectileData, LivingEntity entity) { }
+
+    // only override when want to dealwith sitiation is collide to ground
+    protected virtual void OnCollideGround(RaycastHit hit, ProjectileData projectileData) { }
+
+    // only override when want to dealwith sitiation is collide to shield
+    protected virtual void OnCollideShiled(RaycastHit hit, ProjectileData projectileData, LivingEntity entity) { }
 
     public class ProjectileData
     {
